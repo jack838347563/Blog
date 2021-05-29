@@ -3,28 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>visitor | Jinyu&#39;s Blog</title>
+  <title>visitor(访问者模式) | Mr.Yu&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="参观者模式" />
+  <meta name="keywords" content="行为型模式" />
   
   
   
   
   <meta name="description" content="目的表示要在对象结构的元素上执行的操作。访问者可让你定义新操作，而无需更改其所操作元素的类。 解释真实世界例子  考虑有一个带有军队单位的树形结构。指挥官下有两名中士，每名中士下有三名士兵。基于这个层级结构实现访问者模式，我们可以轻松创建与指挥官，中士，士兵或所有人员互动的新对象  通俗的说  访问者模式定义可以在数据结构的节点上执行的操作。  维基百科说  在面向对象的程序设计和软件工程中，访">
 <meta property="og:type" content="article">
-<meta property="og:title" content="visitor">
-<meta property="og:url" content="https://jack838347563.github.io/blog/2021/05/29/visitor/index.html">
-<meta property="og:site_name" content="Jinyu&#39;s Blog">
+<meta property="og:title" content="visitor(访问者模式)">
+<meta property="og:url" content="https://jack838347563.github.io/blog/2021/05/29/Visitor/index.html">
+<meta property="og:site_name" content="Mr.Yu&#39;s Blog">
 <meta property="og:description" content="目的表示要在对象结构的元素上执行的操作。访问者可让你定义新操作，而无需更改其所操作元素的类。 解释真实世界例子  考虑有一个带有军队单位的树形结构。指挥官下有两名中士，每名中士下有三名士兵。基于这个层级结构实现访问者模式，我们可以轻松创建与指挥官，中士，士兵或所有人员互动的新对象  通俗的说  访问者模式定义可以在数据结构的节点上执行的操作。  维基百科说  在面向对象的程序设计和软件工程中，访">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jack838347563.github.io/blog/images/visitor/visitor_1.png">
-<meta property="article:published_time" content="2021-05-29T15:30:03.000Z">
-<meta property="article:modified_time" content="2021-05-29T03:04:46.699Z">
-<meta property="article:author" content="Jin Yu">
-<meta property="article:tag" content="参观者模式">
+<meta property="og:image" content="https://jack838347563.github.io/blog/images/visitor_1.png">
+<meta property="article:published_time" content="2021-05-29T10:16:12.000Z">
+<meta property="article:modified_time" content="2021-05-29T10:17:48.207Z">
+<meta property="article:author" content="Mr Yu">
+<meta property="article:tag" content="行为型模式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jack838347563.github.io/blog/images/visitor/visitor_1.png">
+<meta name="twitter:image" content="https://jack838347563.github.io/blog/images/visitor_1.png">
   
   <link rel="icon" href="/blog/css/images/favicon.ico">
   
@@ -79,7 +79,7 @@
           </h1>
           
           
-            <div class="site-description">金鱼的博客</div>
+            <div class="site-description">鱼先生的博客</div>
           
             
           <nav id="main-navigation" class="main-navigation" role="navigation">
@@ -113,7 +113,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-visitor" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-Visitor" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -121,7 +121,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      visitor
+      visitor(访问者模式)
     </h1>
   
 
@@ -130,7 +130,7 @@
     <div class="article-meta">
       
 	<a href="" class="article-date">
-	  <time datetime="2021-05-29T15:30:03.000Z" itemprop="datePublished">五月 29, 2021</time>
+	  <time datetime="2021-05-29T10:16:12.000Z" itemprop="datePublished">五月 29, 2021</time>
 	</a>
 
       
@@ -176,7 +176,7 @@
 <p>程序输出:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Hello sergeant</span><br><span class="line">Hello sergeant</span><br><span class="line">Good to see you commander</span><br></pre></td></tr></table></figure>
 
-<h2 id="Class-diagram"><a href="#Class-diagram" class="headerlink" title="Class diagram"></a>Class diagram</h2><p><img src="/blog/images/visitor/visitor_1.png" alt="访问者模式" title="访问者模式"></p>
+<h2 id="Class-diagram"><a href="#Class-diagram" class="headerlink" title="Class diagram"></a>Class diagram</h2><p><img src="/blog/images/visitor_1.png" alt="访问者模式" title="访问者模式"></p>
 <h2 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h2><p>使用访问者模式当</p>
 <ul>
 <li>对象结构包含许多具有不同接口的对象类，并且你希望根据这些对象的具体类对这些对象执行操作。</li>
@@ -207,32 +207,7 @@
 
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%8F%82%E8%A7%82%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">参观者模式</a></li></ul>
-
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="tag">行为型模式</a></li></ul>
 
       
     </footer>
@@ -243,9 +218,9 @@
 <nav id="article-nav">
   
   
-    <a href="../introduce/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../Template/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">introduce(模式简介)</div>
+      <div class="article-nav-title">Template(模板模式)</div>
     </a>
   
 </nav>
@@ -286,11 +261,11 @@
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2021 Jinyu&#39;s Blog All Rights Reserved.
+	      &copy; 2021 Mr.Yu&#39;s Blog All Rights Reserved.
         
       </div>
       <div class="site-credit">
-        Theme by <a href="https://github.com/jack838347563" target="_blank">jinyu</a>
+        Theme by <a href="https://github.com/jack838347563" target="_blank">Mr Yu</a>
       </div>
   </div>
 </footer>
@@ -362,11 +337,6 @@
 
 
 
-
-
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
 
 
 
