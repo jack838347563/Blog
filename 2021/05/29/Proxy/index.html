@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Proxy(代理模式) | Mr.Yu&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="结构型模式" />
+  
+  
+  
+  
+  <meta name="description" content="又被称为替代（代孕）模式 目的为另一个对象提供代理或占位符以控制对其的访问。 解释真实世界例子  想象有一个塔，当地的巫师去那里学习他们的法术。象牙塔只能够通过代理来进入以此来保证只有首先3个巫师才能进入。这里的代理就代表的塔的功能并添加访问控制。  通俗的说  使用代理模式，一个类代表另一个类的功能。  维基百科说  在最一般的形式上，代理是一个类，它充当与其他对象的接口。代理是客户端调用的包装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Proxy(代理模式)">
+<meta property="og:url" content="https://jack838347563.github.io/blog/2021/05/29/Proxy/index.html">
+<meta property="og:site_name" content="Mr.Yu&#39;s Blog">
+<meta property="og:description" content="又被称为替代（代孕）模式 目的为另一个对象提供代理或占位符以控制对其的访问。 解释真实世界例子  想象有一个塔，当地的巫师去那里学习他们的法术。象牙塔只能够通过代理来进入以此来保证只有首先3个巫师才能进入。这里的代理就代表的塔的功能并添加访问控制。  通俗的说  使用代理模式，一个类代表另一个类的功能。  维基百科说  在最一般的形式上，代理是一个类，它充当与其他对象的接口。代理是客户端调用的包装">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jack838347563.github.io/blog/images/proxy.urm.png">
+<meta property="article:published_time" content="2021-05-29T09:33:34.000Z">
+<meta property="article:modified_time" content="2021-05-29T10:49:04.302Z">
+<meta property="article:author" content="Mr Yu">
+<meta property="article:tag" content="结构型模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jack838347563.github.io/blog/images/proxy.urm.png">
+  
+  <link rel="icon" href="/blog/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+
+  
+<script src="../../../../js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.css" >
+  <link rel="stylesheet" href="/blog/css/fashion.css" >
+  <link rel="stylesheet" href="/blog/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/blog/" rel="home" >
+                <img style="margin-bottom: 10px;"  width="900px" height="400px" alt="Hike News" src=" /blog//images/logo.jpg">
+              </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">鱼先生的博客</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="/"> <a class="" href="../../../../index.html">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="archives"> <a class="" href="../../../../archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="categories"> <a class="" href="../../../../categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="tags"> <a class="" href="../../../../tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="about/me"> <a class="" href="../../../../about/me">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Proxy" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Proxy(代理模式)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="" class="article-date">
+	  <time datetime="2021-05-29T09:33:34.000Z" itemprop="datePublished">五月 29, 2021</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+        <!-- 增加tag和categories标签  -->
+        
+
+      
+        <h2 id="又被称为"><a href="#又被称为" class="headerlink" title="又被称为"></a>又被称为</h2><p>替代（代孕）模式</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>为另一个对象提供代理或占位符以控制对其的访问。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>真实世界例子</p>
+<blockquote>
+<p>想象有一个塔，当地的巫师去那里学习他们的法术。象牙塔只能够通过代理来进入以此来保证只有首先3个巫师才能进入。这里的代理就代表的塔的功能并添加访问控制。</p>
+</blockquote>
+<p>通俗的说</p>
+<blockquote>
+<p>使用代理模式，一个类代表另一个类的功能。</p>
+</blockquote>
+<p>维基百科说</p>
+<blockquote>
+<p>在最一般的形式上，代理是一个类，它充当与其他对象的接口。代理是客户端调用的包装器或代理对象，以访问后台的实际服务对象。代理本身可以简单地转发到真实对象，也可以提供其他逻辑。在代理中，可以提供额外的功能，例如在对实对象的操作占用大量资源时进行缓存，或者在对实对象的操作被调用之前检查前提条件。</p>
+</blockquote>
+<span id="more"></span>
+
+<p><strong>程序示例</strong></p>
+<p>使用上面的巫师塔为例。首先我们有<strong>巫师塔</strong>接口和<strong>象牙塔</strong>类 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public interface WizardTower &#123;</span><br><span class="line"></span><br><span class="line">  void enter(Wizard wizard);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class IvoryTower implements WizardTower &#123;</span><br><span class="line"></span><br><span class="line">  private static final Logger LOGGER = LoggerFactory.getLogger(IvoryTower.class);</span><br><span class="line"></span><br><span class="line">  public void enter(Wizard wizard) &#123;</span><br><span class="line">    LOGGER.info(&quot;&#123;&#125; enters the tower.&quot;, wizard);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后有个简单的巫师类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Wizard &#123;</span><br><span class="line"></span><br><span class="line">  private final String name;</span><br><span class="line"></span><br><span class="line">  public Wizard(String name) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public String toString() &#123;</span><br><span class="line">    return name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们有巫师塔代理类为巫师塔添加访问控制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class WizardTowerProxy implements WizardTower &#123;</span><br><span class="line"></span><br><span class="line">  private static final Logger LOGGER = LoggerFactory.getLogger(WizardTowerProxy.class);</span><br><span class="line"></span><br><span class="line">  private static final int NUM_WIZARDS_ALLOWED = 3;</span><br><span class="line"></span><br><span class="line">  private int numWizards;</span><br><span class="line"></span><br><span class="line">  private final WizardTower tower;</span><br><span class="line"></span><br><span class="line">  public WizardTowerProxy(WizardTower tower) &#123;</span><br><span class="line">    this.tower = tower;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void enter(Wizard wizard) &#123;</span><br><span class="line">    if (numWizards &lt; NUM_WIZARDS_ALLOWED) &#123;</span><br><span class="line">      tower.enter(wizard);</span><br><span class="line">      numWizards++;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      LOGGER.info(&quot;&#123;&#125; is not allowed to enter!&quot;, wizard);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后这是进入塔的场景。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var proxy = new WizardTowerProxy(new IvoryTower());</span><br><span class="line">proxy.enter(new Wizard(&quot;Red wizard&quot;));</span><br><span class="line">proxy.enter(new Wizard(&quot;White wizard&quot;));</span><br><span class="line">proxy.enter(new Wizard(&quot;Black wizard&quot;));</span><br><span class="line">proxy.enter(new Wizard(&quot;Green wizard&quot;));</span><br><span class="line">proxy.enter(new Wizard(&quot;Brown wizard&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>程序输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Red wizard enters the tower.</span><br><span class="line">White wizard enters the tower.</span><br><span class="line">Black wizard enters the tower.</span><br><span class="line">Green wizard is not allowed to enter!</span><br><span class="line">Brown wizard is not allowed to enter!</span><br></pre></td></tr></table></figure>
+
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p><img src="/blog/images/proxy.urm.png" alt="代理模式"></p>
+<h2 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h2><p>代理适用于需要比简单指针更广泛或更复杂的对象引用的情况。这是代理模式适用的几种常见情况。</p>
+<ul>
+<li>远程代理为不同地址空间中的对象提供了本地代表。</li>
+<li>虚拟代理根据需要创建昂贵的对象。</li>
+<li>保护代理控制对原始对象的访问。当对象有不同的接入权限时保护代理很有用。</li>
+</ul>
+<h2 id="典型用例"><a href="#典型用例" class="headerlink" title="典型用例"></a>典型用例</h2><ul>
+<li>对象的访问控制</li>
+<li>懒加载</li>
+<li>实现日志记录</li>
+<li>简化网络连接</li>
+<li>对象的访问计数</li>
+</ul>
+<h2 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://java-design-patterns.com/blog/controlling-access-with-proxy-pattern/">Controlling Access With Proxy Pattern</a></li>
+</ul>
+<h2 id="Java世界使用"><a href="#Java世界使用" class="headerlink" title="Java世界使用"></a>Java世界使用</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html">java.lang.reflect.Proxy</a></li>
+<li><a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-proxy/">Apache Commons Proxy</a></li>
+<li>Mocking frameworks <a target="_blank" rel="noopener" href="https://site.mockito.org/">Mockito</a>, <a target="_blank" rel="noopener" href="https://powermock.github.io/">Powermock</a>, <a target="_blank" rel="noopener" href="https://easymock.org/">EasyMock</a></li>
+</ul>
+<h2 id="相关设计模式"><a href="#相关设计模式" class="headerlink" title="相关设计模式"></a>相关设计模式</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://java-design-patterns.com/patterns/ambassador/">Ambassador</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="tag">结构型模式</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../Chain/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Chain of responsibility(责任链模式)
+        
+      </div>
+    </a>
+  
+  
+    <a href="../Flyweight/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Flyweight (享元模式)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%88%E8%A2%AB%E7%A7%B0%E4%B8%BA"><span class="nav-number">1.</span> <span class="nav-text">又被称为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">2.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-number">3.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="nav-number">4.</span> <span class="nav-text">类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">5.</span> <span class="nav-text">适用性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E7%94%A8%E4%BE%8B"><span class="nav-number">6.</span> <span class="nav-text">典型用例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%99%E7%A8%8B"><span class="nav-number">7.</span> <span class="nav-text">教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E4%B8%96%E7%95%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">8.</span> <span class="nav-text">Java世界使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">9.</span> <span class="nav-text">相关设计模式</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="../../../../categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="../../../../tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="../../../../about/me" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 Mr.Yu&#39;s Blog All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/jack838347563" target="_blank">Mr Yu</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+<script src="../../../../js/script.js"></script>
+
+
+<script src="../../../../js/bootstrap.js"></script>
+
+
+<script src="../../../../js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

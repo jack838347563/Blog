@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Iterator(迭代器模式) | Mr.Yu&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="行为型模式" />
+  
+  
+  
+  
+  <meta name="description" content="又被称为游标 目的提供一种在不暴露其基础表示的情况下顺序访问聚合对象的元素的方法。 解释真实世界例子  百宝箱包含一组魔法物品。有多种物品，例如戒指，药水和武器。可以使用藏宝箱提供的迭代器按类型浏览商品。  通俗地说  容器可以提供与表示形式无关的迭代器接口，以提供对元素的访问。  维基百科说  在面向对象的编程中，迭代器模式是一种设计模式，其中迭代器用于遍历容器并访问容器的元素。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Iterator(迭代器模式)">
+<meta property="og:url" content="https://jack838347563.github.io/blog/2021/05/29/Iterator/index.html">
+<meta property="og:site_name" content="Mr.Yu&#39;s Blog">
+<meta property="og:description" content="又被称为游标 目的提供一种在不暴露其基础表示的情况下顺序访问聚合对象的元素的方法。 解释真实世界例子  百宝箱包含一组魔法物品。有多种物品，例如戒指，药水和武器。可以使用藏宝箱提供的迭代器按类型浏览商品。  通俗地说  容器可以提供与表示形式无关的迭代器接口，以提供对元素的访问。  维基百科说  在面向对象的编程中，迭代器模式是一种设计模式，其中迭代器用于遍历容器并访问容器的元素。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jack838347563.github.io/blog/images/iterator_1.png">
+<meta property="article:published_time" content="2021-05-29T09:56:18.000Z">
+<meta property="article:modified_time" content="2021-05-29T10:21:48.743Z">
+<meta property="article:author" content="Mr Yu">
+<meta property="article:tag" content="行为型模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jack838347563.github.io/blog/images/iterator_1.png">
+  
+  <link rel="icon" href="/blog/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+
+  
+<script src="../../../../js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.css" >
+  <link rel="stylesheet" href="/blog/css/fashion.css" >
+  <link rel="stylesheet" href="/blog/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/blog/" rel="home" >
+                <img style="margin-bottom: 10px;"  width="900px" height="400px" alt="Hike News" src=" /blog//images/logo.jpg">
+              </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">鱼先生的博客</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="/"> <a class="" href="../../../../index.html">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="archives"> <a class="" href="../../../../archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="categories"> <a class="" href="../../../../categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="tags"> <a class="" href="../../../../tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="about/me"> <a class="" href="../../../../about/me">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Iterator" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Iterator(迭代器模式)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="" class="article-date">
+	  <time datetime="2021-05-29T09:56:18.000Z" itemprop="datePublished">五月 29, 2021</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+        <!-- 增加tag和categories标签  -->
+        
+
+      
+        <h2 id="又被称为"><a href="#又被称为" class="headerlink" title="又被称为"></a>又被称为</h2><p>游标</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>提供一种在不暴露其基础表示的情况下顺序访问聚合对象的元素的方法。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>真实世界例子</p>
+<blockquote>
+<p>百宝箱包含一组魔法物品。有多种物品，例如戒指，药水和武器。可以使用藏宝箱提供的迭代器按类型浏览商品。</p>
+</blockquote>
+<p>通俗地说</p>
+<blockquote>
+<p>容器可以提供与表示形式无关的迭代器接口，以提供对元素的访问。</p>
+</blockquote>
+<p>维基百科说</p>
+<blockquote>
+<p>在面向对象的编程中，迭代器模式是一种设计模式，其中迭代器用于遍历容器并访问容器的元素。</p>
+</blockquote>
+<span id="more"></span>
+
+<p><strong>程序示例</strong></p>
+<p>在我们的示例中包含物品的藏宝箱是主要类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">public class TreasureChest &#123;</span><br><span class="line"></span><br><span class="line">  private final List&lt;Item&gt; items;</span><br><span class="line"></span><br><span class="line">  public TreasureChest() &#123;</span><br><span class="line">    items = List.of(</span><br><span class="line">        new Item(ItemType.POTION, &quot;Potion of courage&quot;),</span><br><span class="line">        new Item(ItemType.RING, &quot;Ring of shadows&quot;),</span><br><span class="line">        new Item(ItemType.POTION, &quot;Potion of wisdom&quot;),</span><br><span class="line">        new Item(ItemType.POTION, &quot;Potion of blood&quot;),</span><br><span class="line">        new Item(ItemType.WEAPON, &quot;Sword of silver +1&quot;),</span><br><span class="line">        new Item(ItemType.POTION, &quot;Potion of rust&quot;),</span><br><span class="line">        new Item(ItemType.POTION, &quot;Potion of healing&quot;),</span><br><span class="line">        new Item(ItemType.RING, &quot;Ring of armor&quot;),</span><br><span class="line">        new Item(ItemType.WEAPON, &quot;Steel halberd&quot;),</span><br><span class="line">        new Item(ItemType.WEAPON, &quot;Dagger of poison&quot;));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public Iterator&lt;Item&gt; iterator(ItemType itemType) &#123;</span><br><span class="line">    return new TreasureChestItemIterator(this, itemType);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public List&lt;Item&gt; getItems() &#123;</span><br><span class="line">    return new ArrayList&lt;&gt;(items);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Item &#123;</span><br><span class="line"></span><br><span class="line">  private ItemType type;</span><br><span class="line">  private final String name;</span><br><span class="line"></span><br><span class="line">  public Item(ItemType type, String name) &#123;</span><br><span class="line">    this.setType(type);</span><br><span class="line">    this.name = name;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public String toString() &#123;</span><br><span class="line">    return name;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public ItemType getType() &#123;</span><br><span class="line">    return type;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public final void setType(ItemType type) &#123;</span><br><span class="line">    this.type = type;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public enum ItemType &#123;</span><br><span class="line"></span><br><span class="line">  ANY, WEAPON, RING, POTION</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>迭代器接口极度简单。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public interface Iterator&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">  boolean hasNext();</span><br><span class="line"></span><br><span class="line">  T next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在以下示例中，我们遍历在宝箱中找到的戒指类型物品。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var itemIterator = TREASURE_CHEST.iterator(ItemType.RING);</span><br><span class="line">while (itemIterator.hasNext()) &#123;</span><br><span class="line">  LOGGER.info(itemIterator.next().toString());</span><br><span class="line">&#125;</span><br><span class="line">// Ring of shadows</span><br><span class="line">// Ring of armor</span><br></pre></td></tr></table></figure>
+
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p><img src="/blog/images/iterator_1.png" alt="迭代器模式"></p>
+<h2 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h2><p>以下情况使用迭代器模式</p>
+<ul>
+<li>在不暴露其内部表示的情况下访问聚合对象的内容</li>
+<li>为了支持聚合对象的多种遍历方式</li>
+<li>提供一个遍历不同聚合结构的统一接口</li>
+</ul>
+<h2 id="Java世界例子"><a href="#Java世界例子" class="headerlink" title="Java世界例子"></a>Java世界例子</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html">java.util.Iterator</a></li>
+<li><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/java/util/Enumeration.html">java.util.Enumeration</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="tag">行为型模式</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../Mediator/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mediator(中介者模式)
+        
+      </div>
+    </a>
+  
+  
+    <a href="../Interpreter/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Interpreter(解释器模式)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%88%E8%A2%AB%E7%A7%B0%E4%B8%BA"><span class="nav-number">1.</span> <span class="nav-text">又被称为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">2.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-number">3.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="nav-number">4.</span> <span class="nav-text">类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">5.</span> <span class="nav-text">适用性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E4%B8%96%E7%95%8C%E4%BE%8B%E5%AD%90"><span class="nav-number">6.</span> <span class="nav-text">Java世界例子</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="../../../../categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="../../../../tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="../../../../about/me" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 Mr.Yu&#39;s Blog All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/jack838347563" target="_blank">Mr Yu</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+<script src="../../../../js/script.js"></script>
+
+
+<script src="../../../../js/bootstrap.js"></script>
+
+
+<script src="../../../../js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

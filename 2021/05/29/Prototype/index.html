@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Prototype (原型模式) | Mr.Yu&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="创建型模式" />
+  
+  
+  
+  
+  <meta name="description" content="目的使用原型实例指定要创建的对象种类，并通过复制此原型来创建新对象。 解释首先应该注意的是，原型模式不是为了获得性能优势。 它仅用于从原型实例创建新对象。 真实世界例子  还记得多莉吗？ 被克隆的羊！ 让我们不要进入细节，但这里的关键点是这一切都与克隆有关。  通俗的说  通过克隆基于现有对象创建对象。  维基百科上说  原型模式是软件开发中的一种创建性设计模式。 当要创建的对象类型由原型实例确定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prototype (原型模式)">
+<meta property="og:url" content="https://jack838347563.github.io/blog/2021/05/29/Prototype/index.html">
+<meta property="og:site_name" content="Mr.Yu&#39;s Blog">
+<meta property="og:description" content="目的使用原型实例指定要创建的对象种类，并通过复制此原型来创建新对象。 解释首先应该注意的是，原型模式不是为了获得性能优势。 它仅用于从原型实例创建新对象。 真实世界例子  还记得多莉吗？ 被克隆的羊！ 让我们不要进入细节，但这里的关键点是这一切都与克隆有关。  通俗的说  通过克隆基于现有对象创建对象。  维基百科上说  原型模式是软件开发中的一种创建性设计模式。 当要创建的对象类型由原型实例确定">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jack838347563.github.io/blog/images/prototype.urm.png">
+<meta property="article:published_time" content="2021-05-29T07:53:57.000Z">
+<meta property="article:modified_time" content="2021-05-29T10:49:04.266Z">
+<meta property="article:author" content="Mr Yu">
+<meta property="article:tag" content="创建型模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jack838347563.github.io/blog/images/prototype.urm.png">
+  
+  <link rel="icon" href="/blog/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+
+  
+<script src="../../../../js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.css" >
+  <link rel="stylesheet" href="/blog/css/fashion.css" >
+  <link rel="stylesheet" href="/blog/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/blog/" rel="home" >
+                <img style="margin-bottom: 10px;"  width="900px" height="400px" alt="Hike News" src=" /blog//images/logo.jpg">
+              </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">鱼先生的博客</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="/"> <a class="" href="../../../../index.html">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="archives"> <a class="" href="../../../../archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="categories"> <a class="" href="../../../../categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="tags"> <a class="" href="../../../../tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="about/me"> <a class="" href="../../../../about/me">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Prototype" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Prototype (原型模式)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="" class="article-date">
+	  <time datetime="2021-05-29T07:53:57.000Z" itemprop="datePublished">五月 29, 2021</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+        <!-- 增加tag和categories标签  -->
+        
+
+      
+        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>使用原型实例指定要创建的对象种类，并通过复制此原型来创建新对象。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>首先应该注意的是，原型模式不是为了获得性能优势。 它仅用于从原型实例创建新对象。</p>
+<p>真实世界例子</p>
+<blockquote>
+<p>还记得多莉吗？ 被克隆的羊！ 让我们不要进入细节，但这里的关键点是这一切都与克隆有关。</p>
+</blockquote>
+<p>通俗的说</p>
+<blockquote>
+<p>通过克隆基于现有对象创建对象。</p>
+</blockquote>
+<p>维基百科上说</p>
+<blockquote>
+<p>原型模式是软件开发中的一种创建性设计模式。 当要创建的对象类型由原型实例确定时使用，该实例被克隆以生成新对象。</p>
+</blockquote>
+<p>简而言之，它允许您创建现有对象的副本并根据需要对其进行修改，而不是从头开始创建对象并进行设置。</p>
+<span id="more"></span>
+
+<p>程序示例</p>
+<p>在 Java 中，可以通过实现 <code>Cloneable</code> 并从 <code>Object</code> 覆盖 <code>clone</code> 来轻松完成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Sheep implements Cloneable &#123;</span><br><span class="line">  private String name;</span><br><span class="line">  public Sheep(String name) &#123; this.name = name; &#125;</span><br><span class="line">  public void setName(String name) &#123; this.name = name; &#125;</span><br><span class="line">  public String getName() &#123; return name; &#125;</span><br><span class="line">  @Override</span><br><span class="line">  public Sheep clone() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">      return (Sheep)super.clone();</span><br><span class="line">    &#125; catch(CloneNotSuportedException) &#123;</span><br><span class="line">      throw new InternalError();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后它可以像下面这样克隆:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var original = new Sheep(&quot;Jolly&quot;);</span><br><span class="line">System.out.println(original.getName()); // Jolly</span><br><span class="line"></span><br><span class="line">// Clone and modify what is required</span><br><span class="line">var cloned = original.clone();</span><br><span class="line">cloned.setName(&quot;Dolly&quot;);</span><br><span class="line">System.out.println(cloned.getName()); // Dolly</span><br></pre></td></tr></table></figure>
+
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p>[<img src="/blog/images/prototype.urm.png" alt="原型模式"></p>
+<h2 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h2><p>当系统应该独立于其产品的创建、组合、表示和表示方式时，使用原型模式</p>
+<ul>
+<li>在运行时指定要实例化的类时，例如，通过动态加载。</li>
+<li>避免构建与产品类层次结构平行的工厂类层次结构。</li>
+<li>当一个类的实例可以具有仅有的几种不同状态组合中的一种时。 安装相应数量的原型并克隆它们可能更方便，而不是每次都使用适当的状态手动实例化类。</li>
+<li>与克隆相比，创建对象的成本更高。</li>
+</ul>
+<h2 id="Java世界使用"><a href="#Java世界使用" class="headerlink" title="Java世界使用"></a>Java世界使用</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone()">java.lang.Object#clone()</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="tag">创建型模式</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../Adapter/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Adapter(适配器模式)
+        
+      </div>
+    </a>
+  
+  
+    <a href="../Builder/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Builder(建造者模式)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">适用性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E4%B8%96%E7%95%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">Java世界使用</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="../../../../categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="../../../../tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="../../../../about/me" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 Mr.Yu&#39;s Blog All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/jack838347563" target="_blank">Mr Yu</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+<script src="../../../../js/script.js"></script>
+
+
+<script src="../../../../js/bootstrap.js"></script>
+
+
+<script src="../../../../js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
