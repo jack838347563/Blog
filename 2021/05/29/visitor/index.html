@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>visitor | Jinyu&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="参观者模式" />
+  
+  
+  
+  
+  <meta name="description" content="目的表示要在对象结构的元素上执行的操作。访问者可让你定义新操作，而无需更改其所操作元素的类。 解释真实世界例子  考虑有一个带有军队单位的树形结构。指挥官下有两名中士，每名中士下有三名士兵。基于这个层级结构实现访问者模式，我们可以轻松创建与指挥官，中士，士兵或所有人员互动的新对象  通俗的说  访问者模式定义可以在数据结构的节点上执行的操作。  维基百科说  在面向对象的程序设计和软件工程中，访">
+<meta property="og:type" content="article">
+<meta property="og:title" content="visitor">
+<meta property="og:url" content="https://jack838347563.github.io/blog/2021/05/29/visitor/index.html">
+<meta property="og:site_name" content="Jinyu&#39;s Blog">
+<meta property="og:description" content="目的表示要在对象结构的元素上执行的操作。访问者可让你定义新操作，而无需更改其所操作元素的类。 解释真实世界例子  考虑有一个带有军队单位的树形结构。指挥官下有两名中士，每名中士下有三名士兵。基于这个层级结构实现访问者模式，我们可以轻松创建与指挥官，中士，士兵或所有人员互动的新对象  通俗的说  访问者模式定义可以在数据结构的节点上执行的操作。  维基百科说  在面向对象的程序设计和软件工程中，访">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jack838347563.github.io/blog/images/visitor/visitor_1.png">
+<meta property="article:published_time" content="2021-05-29T15:30:03.000Z">
+<meta property="article:modified_time" content="2021-05-29T03:04:46.699Z">
+<meta property="article:author" content="Jin Yu">
+<meta property="article:tag" content="参观者模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jack838347563.github.io/blog/images/visitor/visitor_1.png">
+  
+  <link rel="icon" href="/blog/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+
+  
+<script src="../../../../js/jquery-3.1.1.min.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/blog/css/bootstrap.css" >
+  <link rel="stylesheet" href="/blog/css/fashion.css" >
+  <link rel="stylesheet" href="/blog/css/glyphs.css" >
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner" 
+   >
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/blog/" rel="home" >
+                <img style="margin-bottom: 10px;"  width="900px" height="400px" alt="Hike News" src=" /blog//images/logo.jpg">
+              </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">金鱼的博客</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows"  style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="/"> <a class="" href="../../../../index.html">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="archives"> <a class="" href="../../../../archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="categories"> <a class="" href="../../../../categories">Categories</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="tags"> <a class="" href="../../../../tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663" linktext="about/me"> <a class="" href="../../../../about/me">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-visitor" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      visitor
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="" class="article-date">
+	  <time datetime="2021-05-29T15:30:03.000Z" itemprop="datePublished">五月 29, 2021</time>
+	</a>
+
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+ 
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+        <!-- 增加tag和categories标签  -->
+        
+
+      
+        <ul>
+<li><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>表示要在对象结构的元素上执行的操作。访问者可让你定义新操作，而无需更改其所操作元素的类。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>真实世界例子</p>
+<blockquote>
+<p>考虑有一个带有军队单位的树形结构。指挥官下有两名中士，每名中士下有三名士兵。基于这个层级结构实现访问者模式，我们可以轻松创建与指挥官，中士，士兵或所有人员互动的新对象</p>
+</blockquote>
+<p>通俗的说</p>
+<blockquote>
+<p>访问者模式定义可以在数据结构的节点上执行的操作。</p>
+</blockquote>
+<p>维基百科说</p>
+<blockquote>
+<p>在面向对象的程序设计和软件工程中，访问者设计模式是一种将算法与操作对象的结构分离的方法。这种分离的实际结果是能够在不修改结构的情况下向现有对象结构添加新操作。</p>
+</blockquote>
+<span id="more"></span>
+
+<p><strong>程序示例</strong></p>
+<p>使用上面的军队单元的例子，我们首先由单位和单位访问器类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Unit</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Unit[] children;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Unit</span><span class="params">(Unit... children)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.children = children;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(UnitVisitor visitor)</span> </span>&#123;</span><br><span class="line">    Arrays.stream(children).forEach(child -&gt; child.accept(visitor));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UnitVisitor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">visitSoldier</span><span class="params">(Soldier soldier)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">visitSergeant</span><span class="params">(Sergeant sergeant)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">visitCommander</span><span class="params">(Commander commander)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们有具体的单元。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Commander</span> <span class="keyword">extends</span> <span class="title">Unit</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Commander</span><span class="params">(Unit... children)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(children);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(UnitVisitor visitor)</span> </span>&#123;</span><br><span class="line">    visitor.visitCommander(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">super</span>.accept(visitor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;commander&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sergeant</span> <span class="keyword">extends</span> <span class="title">Unit</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Sergeant</span><span class="params">(Unit... children)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(children);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(UnitVisitor visitor)</span> </span>&#123;</span><br><span class="line">    visitor.visitSergeant(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">super</span>.accept(visitor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;sergeant&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Soldier</span> <span class="keyword">extends</span> <span class="title">Unit</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Soldier</span><span class="params">(Unit... children)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(children);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(UnitVisitor visitor)</span> </span>&#123;</span><br><span class="line">    visitor.visitSoldier(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">super</span>.accept(visitor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;soldier&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后有一些具体的访问者。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommanderVisitor</span> <span class="keyword">implements</span> <span class="title">UnitVisitor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(CommanderVisitor.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitSoldier</span><span class="params">(Soldier soldier)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitSergeant</span><span class="params">(Sergeant sergeant)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitCommander</span><span class="params">(Commander commander)</span> </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;Good to see you &#123;&#125;&quot;</span>, commander);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SergeantVisitor</span> <span class="keyword">implements</span> <span class="title">UnitVisitor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(SergeantVisitor.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitSoldier</span><span class="params">(Soldier soldier)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitSergeant</span><span class="params">(Sergeant sergeant)</span> </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;Hello &#123;&#125;&quot;</span>, sergeant);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitCommander</span><span class="params">(Commander commander)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoldierVisitor</span> <span class="keyword">implements</span> <span class="title">UnitVisitor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(SoldierVisitor.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitSoldier</span><span class="params">(Soldier soldier)</span> </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">&quot;Greetings &#123;&#125;&quot;</span>, soldier);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitSergeant</span><span class="params">(Sergeant sergeant)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitCommander</span><span class="params">(Commander commander)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Do nothing</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，来看看实践中访问者模式的力量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">commander.accept(<span class="keyword">new</span> SoldierVisitor());</span><br><span class="line">commander.accept(<span class="keyword">new</span> SergeantVisitor());</span><br><span class="line">commander.accept(<span class="keyword">new</span> CommanderVisitor());</span><br></pre></td></tr></table></figure>
+
+<p>程序输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Greetings soldier</span><br><span class="line">Hello sergeant</span><br><span class="line">Hello sergeant</span><br><span class="line">Good to see you commander</span><br></pre></td></tr></table></figure>
+
+<h2 id="Class-diagram"><a href="#Class-diagram" class="headerlink" title="Class diagram"></a>Class diagram</h2><p><img src="/blog/images/visitor/visitor_1.png" alt="访问者模式" title="访问者模式"></p>
+<h2 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h2><p>使用访问者模式当</p>
+<ul>
+<li>对象结构包含许多具有不同接口的对象类，并且你希望根据这些对象的具体类对这些对象执行操作。</li>
+<li>需要对对象结构中的对象执行许多不同且不相关的操作，并且你想避免使用这些操作“污染”它们的类。 访问者可以通过在一个类中定义相关操作来将它们保持在一起。当许多应用程序共享对象结构时，请使用访问者模式将操作仅放在需要它们的那些应用程序中</li>
+<li>定义对象结构的类很少变化，但是你经常想在结构上定义新的操作。更改对象结构类需要重新定义所有访问者的接口，这可能会导致成本高昂。如果对象结构类经常更改，则最好在这些类中定义操作。</li>
+</ul>
+<h2 id="真实例子"><a href="#真实例子" class="headerlink" title="真实例子"></a>真实例子</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/apache/wicket">Apache Wicket</a> component tree, see <a target="_blank" rel="noopener" href="https://github.com/apache/wicket/blob/b60ec64d0b50a611a9549809c9ab216f0ffa3ae3/wicket-core/src/main/java/org/apache/wicket/MarkupContainer.java">MarkupContainer</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/javax/lang/model/element/AnnotationValue.html">javax.lang.model.element.AnnotationValue</a> and <a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/javax/lang/model/element/AnnotationValueVisitor.html">AnnotationValueVisitor</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/javax/lang/model/element/Element.html">javax.lang.model.element.Element</a> and <a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/javax/lang/model/element/ElementVisitor.html">Element Visitor</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/8/docs/api/java/nio/file/FileVisitor.html">java.nio.file.FileVisitor</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.amazon.com/gp/product/0321213351/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321213351&amp;linkCode=as2&amp;tag=javadesignpat-20&amp;linkId=2a76fcb387234bc71b1c61150b3cc3a7">https://www.amazon.com/gp/product/0321213351/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321213351&amp;linkCode=as2&amp;tag=javadesignpat-20&amp;linkId=2a76fcb387234bc71b1c61150b3cc3a7</a>)</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="../../../../categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%8F%82%E8%A7%82%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">参观者模式</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../introduce/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">introduce(模式简介)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class-diagram"><span class="nav-number">3.</span> <span class="nav-text">Class diagram</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">适用性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E5%AE%9E%E4%BE%8B%E5%AD%90"><span class="nav-number">5.</span> <span class="nav-text">真实例子</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="../../../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../../../archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="../../../../categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="../../../../tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="../../../../about/me" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2021 Jinyu&#39;s Blog All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/jack838347563" target="_blank">jinyu</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+<script src="../../../../js/script.js"></script>
+
+
+<script src="../../../../js/bootstrap.js"></script>
+
+
+<script src="../../../../js/main.js"></script>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
